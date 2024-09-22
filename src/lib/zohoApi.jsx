@@ -143,7 +143,29 @@ const useTriggerBlueprint = async () => {
 
 const useCancelButton = async () =>{
   await ZOHO.CRM.UI.Popup.closeReload();
+
+
 }
+
+
+const waitForClient = (maxAttempts = 5, interval = 1000) => {
+  return new Promise((resolve, reject) => {
+    let attempts = 0;
+    const check = () => {
+      if (window.$Client) {
+        resolve(window.$Client);
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        setTimeout(check, interval);
+      } else {
+        reject(new Error('$Client not available after maximum attempts'));
+      }
+    };
+    check();
+  });
+};
+
+
 
 
 

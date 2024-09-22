@@ -9,9 +9,7 @@ window.ZOHO.embeddedApp.on("PageLoad", function (Entity) {
   window.ZOHO.CRM.UI.Resize({ height: "350", width: "500" }).then(function () {
  
     createRoot(document.getElementById('root')).render(
-      <StrictMode>
-        <App />
-      </StrictMode>,
+        <App />,
     )
 
 

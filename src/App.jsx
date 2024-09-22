@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSearchLocation } from './lib/externalApi';
 import SearchResultsTable from './search_components/search_table';
 import { InputWithButton } from './search_components/search_input';
+import {closeWidget} from './lib/clientScriptResponse'
+/* global $Client */
+
+
+
+
+
 
 
 function App() {
@@ -30,20 +37,25 @@ function App() {
       const uniqueResults = [searchTermEntry, ...locationResults].filter((item, index, self) =>
         index === self.findIndex((t) => t.title === item.title && t.body === item.body)
       );
+      
 
       setFormattedResults(uniqueResults);
     } else {
       setFormattedResults([]);
     }
+
+
   }, [recordData, searchTerm]);
 
-  const handleSelectLocation = (location) => {
+  const handleSelectLocation = async (location) => {
     if (!location.isSearchTerm) {
       const payload = {
         selectedLocation: location.body, // Changed from location.components to location.body
         searchTerm: searchTerm
       };
       console.log('Selected Location Payload:', payload);
+      closeWidget(payload)
+      
     }
   };
 
