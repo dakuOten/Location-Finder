@@ -3,15 +3,14 @@ import { useSearchLocation } from './lib/externalApi';
 import SearchResultsTable from './search_components/search_table';
 import { InputWithButton } from './search_components/search_input';
 
+
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState(null);
   const [formattedResults, setFormattedResults] = useState([]);
   const { recordData, error, loading, clearSearch } = useSearchLocation(searchTerm);
 
   const handleChildValue = (value) => {
     setSearchTerm(value);
-    setSelectedLocation(null);
     if (!value.trim()) {
       // Clear search results when input is empty
       setFormattedResults([]);
@@ -40,7 +39,6 @@ function App() {
 
   const handleSelectLocation = (location) => {
     if (!location.isSearchTerm) {
-      setSelectedLocation(location);
       const payload = {
         selectedLocation: location.body, // Changed from location.components to location.body
         searchTerm: searchTerm
@@ -61,13 +59,6 @@ function App() {
           results={formattedResults} 
           onSelect={handleSelectLocation}
         />
-      )}
-      {selectedLocation && (
-        <div className="mt-4 p-4 bg-blue-100 rounded-lg">
-          <h2 className="font-bold text-lg mb-2">Selected Location:</h2>
-          <p>{selectedLocation.title}</p>
-          <p className="text-sm text-gray-600">{selectedLocation.address}</p>
-        </div>
       )}
     </div>
   );
