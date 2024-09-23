@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchLocation } from './lib/externalApi';
 import SearchResultsTable from './search_components/search_table';
 import { InputWithButton } from './search_components/search_input';
-import {closeWidget} from './lib/clientScriptResponse'
-/* global $Client */
-
-
-
-
-
-
+import {clientScriptClose} from './lib/zohoApi'
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -54,18 +47,26 @@ function App() {
         searchTerm: searchTerm
       };
       console.log('Selected Location Payload:', payload);
-      closeWidget(payload)
+      clientScriptClose(payload)
       
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="mb-4">
+    <div className="container mx-auto p-4 ">
+      <div className="mb-2 no-scrollbar">
         <InputWithButton onValueChange={handleChildValue} />
       </div>
-      {loading && <p className="text-gray-600">Loading...</p>}
+      {loading && (
+        <div className="flex justify-center items-center mt-[20px]">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+          <span className="ml-2">Loading...</span>
+        </div>
+      )}
       {error && <p className="text-red-500">Error: {error.message}</p>}
+      {!loading && !error && formattedResults.length === 0 && (
+        <p className="text-gray-600 flex justify-center items-center mt-[110px]">No search results. Please try a different query.</p>
+      )}
       {formattedResults.length > 0 && (
         <SearchResultsTable 
           results={formattedResults} 
