@@ -1,3 +1,4 @@
+
 import React from 'react';
 import locationImage from "../assets/location.png"
 const SearchResultsTable = ({ results, onSelect }) => {
@@ -5,7 +6,7 @@ const SearchResultsTable = ({ results, onSelect }) => {
   const filteredResults = results.filter(result => !result.isSearchTerm);
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-md">
+    <div className="bg-white rounded-lg shadow-md max-w-md h-[calc(100vh-100px)] overflow-y-auto">
       {filteredResults.map((result, index) => (
         <div 
           key={index} 
